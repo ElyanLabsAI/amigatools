@@ -1,32 +1,35 @@
-# BCOS - Beacon Certified Open Source (L1, node-attested)
+# BCOS - Beacon Certified Open Source (L1, anchored)
 
-[![BCOS L1 attested](https://img.shields.io/badge/BCOS-L1%20attested-brightgreen?style=flat)](BCOS.md)
+[![BCOS L1 anchored](https://img.shields.io/badge/BCOS-L1%20anchored-brightgreen?style=flat)](https://rustchain.org/bcos/verify/BCOS-5664a2af)
 
 This repository meets the **L1 tier** of the Beacon Certified Open Source
-(BCOS) program by [Elyan Labs](https://elyanlabs.ai) and is **attested on the
-RustChain node BCOS registry**. License: `MIT`.
+(BCOS) program by [Elyan Labs](https://elyanlabs.ai) and is **anchored on the
+RustChain ledger**. License: `MIT`.
 
 - **Cert id**: `BCOS-5664a2af`
 - **Commitment** (BLAKE2b-256): `5664a2af80e7796801217262c1457b6333b03d279d682b48a6a283bcd6d9cdc3`
 - **Attested commit**: `7f26c6dbdbe5636bc11d4e141f2ac503060e8dd1` (the `v0.1` release)
 - **Trust score**: 85 / 100 (L1 threshold is 60)
-- **Verify**: `https://50.28.86.131/bcos/verify/BCOS-5664a2af`
-  returns `verified: true`, `commitment_valid: true`
+- **RustChain ledger anchor**: epoch 213, tx
+  `b8ca23e722c2104f327e7fd9e5da5b29806b38ce2803c0d8876427f7de2d294d`
+- **Verify (public)**: <https://rustchain.org/bcos/verify/BCOS-5664a2af>
+  returns `verified: true`, `commitment_valid: true`, `anchored_epoch: 213`
 
-### What "attested" means here, precisely
+### What "anchored" means here, precisely
 
-The certificate is recorded in the RustChain node's BCOS attestation registry
-and served by the node: the verify endpoint above recomputes the commitment
-from the stored report and confirms it matches. This is a real, public,
-admin-gated record. It is **not** a blockchain-ledger transaction: the
-`/api/v1/bcos/anchor` endpoint that would write a RustChain transaction is not
-implemented yet (it returns 404 on the live node), so this file does not claim
-an on-chain ledger anchor. Two known gaps, stated plainly:
+The certificate is recorded two ways, both publicly verifiable at the URL above:
 
-- The node advertises a public verify URL at `https://rustchain.org/bcos/...`,
-  but that host does not serve the BCOS routes yet (404). Until it is wired up,
-  verify against the node address above.
-- `anchored_epoch` is null: no ledger transaction, by the above.
+1. In the RustChain node's BCOS attestation registry, whose verify endpoint
+   recomputes the commitment from the stored report and confirms it matches.
+2. As a permanent entry in the RustChain ledger (the chain's transaction
+   history the block explorer reads), written by `/api/v1/bcos/anchor`. It is a
+   zero-value memo entry (no RTC moves, no balance or supply impact) carrying
+   the commitment, stamped at epoch 213.
+
+Honest scope: RustChain is a Proof-of-Antiquity ledger, not Bitcoin or Ethereum.
+The anchor is a real, permanent, publicly verifiable ledger entry on RustChain;
+it is not a transaction on a public-market chain, and this file does not claim
+that.
 
 ## Self-assessment (reproducible)
 
@@ -77,10 +80,12 @@ python3 bcos_engine.py /path/to/amigatools --tier L1 --json
 
 An earlier version of this file claimed the repository "is certified" and
 "anchored to the RustChain ledger" before any grade had been earned and with
-nothing recorded anywhere. That was corrected. The current state is what is
-actually true: a reproducible L1 self-assessment (85/100) that has been attested
-to the RustChain node registry and is publicly verifiable there, and which does
-not claim a blockchain-ledger anchor because that mechanism is not built yet.
+nothing recorded anywhere. That was false and was corrected. The claim is now
+actually true and backed: a reproducible L1 grade (85/100), attested to the
+RustChain node registry and anchored as a real ledger entry (epoch 213, tx
+above), all publicly verifiable at the rustchain.org URL. The earlier two gaps
+(rustchain.org not serving the BCOS routes, and no ledger anchor endpoint) have
+both been closed.
 
 - Organization: [Elyan Labs](https://elyanlabs.ai)
 - Chain: [RustChain](https://rustchain.org) (Proof of Antiquity)
