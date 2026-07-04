@@ -1,19 +1,25 @@
-# BCOS — Beacon Certified Open Source
+# BCOS - Beacon Certified Open Source (in progress)
 
-[![BCOS Certified](https://img.shields.io/badge/BCOS-Certified-brightgreen?style=flat)](https://rustchain.org/bcos/)
+This repository is **working toward** certification under the Beacon Certified
+Open Source (BCOS) program by [Elyan Labs](https://elyanlabs.ai). It is **not
+certified yet**. License: `MIT`.
 
-This repository is certified under the **Beacon Certified Open Source (BCOS)**
-program by [Elyan Labs](https://elyanlabs.ai). License: `MIT`.
+## Current self-assessment
 
-## Verification
+Run locally with the BCOS v2 engine (no on-chain anchoring performed):
 
-```bash
-python3 -m pip install clawrtc
-clawrtc bcos scan .
-clawrtc bcos verify <cert-id>
-```
+| Field | Value |
+|-------|-------|
+| Trust score | 18 / 100 |
+| Tier claimed | L1 (needs >= 60) |
+| Tier met | No, not yet |
+| Cert id (local) | BCOS-210fc8b1 |
+| Commitment (local, not anchored) | `210fc8b1d4807eee7ec2de02e26789e34505be4d4286195de559a911e4245fb4` |
 
-Or check the public directory at **[rustchain.org/bcos/](https://rustchain.org/bcos/)**.
+The score is held down by two things we are actively addressing: the vendored
+AmiSSL SDK under `common/` (third-party OpenSSL headers with no SPDX tags, which
+drag license coverage down) and the static-analysis / vulnerability / SBOM
+checks, which need their scanner tooling wired into a repeatable run.
 
 ## What BCOS certifies
 
@@ -27,10 +33,20 @@ Or check the public directory at **[rustchain.org/bcos/](https://rustchain.org/b
 | Test Evidence | Test infrastructure and in-emulator evidence |
 | Review Attestation | Human or agent review tier |
 
-## Certification details
+## Verify the self-assessment yourself
 
-- Reviewed by: Scott Boudreaux ([@Scottcjn](https://github.com/Scottcjn))
+```bash
+python3 bcos_engine.py . --tier L1 --json
+```
+
+## Honesty note
+
+An earlier version of this file claimed the repository "is certified" and that a
+commitment was "anchored to the RustChain ledger." Neither was true: no passing
+grade had been earned and nothing was written on-chain. That claim has been
+removed. When the repository genuinely meets an L1 grade, and only then, the
+badge and an on-chain commitment will be added back with real evidence.
+
 - Organization: [Elyan Labs](https://elyanlabs.ai)
 - Chain: [RustChain](https://rustchain.org) (Proof of Antiquity)
 - Engine: BCOS v2, free and open source (MIT)
-- On-chain proof: BLAKE2b-256 commitment anchored to the RustChain ledger

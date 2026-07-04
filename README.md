@@ -1,6 +1,6 @@
 # AmigaTools by Elyan Labs
 
-[![BCOS Certified](https://img.shields.io/badge/BCOS-Certified-brightgreen?style=flat)](https://rustchain.org/bcos/) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Modern software for the classic Commodore Amiga. Native Motorola 68k
 (m68k) apps for AmigaOS 3.x and AROS: a web (Gemini) browser, Mastodon and
@@ -76,9 +76,9 @@ bash) and the reusable transport and JSON code.
   the Proof-of-Antiquity blockchain miner and SDK for 68k AmigaOS, where
   these tools started before moving here.
 - [Elyan Labs](https://elyanlabs.ai) - the lab.
-- [RustChain](https://rustchain.org) - the chain, and the BCOS certification.
+- [RustChain](https://rustchain.org) - the chain, and the BCOS program.
 
 ## License
 
-MIT (see `LICENSE`). Certified under Elyan Labs' Beacon Certified Open
-Source program (see `BCOS.md`).
+MIT (see `LICENSE`). Working toward Elyan Labs' Beacon Certified Open
+Source (BCOS) certification (see `BCOS.md`).
