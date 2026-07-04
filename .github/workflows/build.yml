@@ -1,0 +1,74 @@
+name: Build Amiga m68k Binaries
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    name: Build all m68k AmigaOS apps
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build boing
+        run: |
+          mkdir -p boing/bin
+          docker run --rm -v "$PWD":/work -w /work/boing \
+            amigadev/crosstools:m68k-amigaos \
+            m68k-amigaos-gcc -noixemul -m68020 -O2 -fomit-frame-pointer -Wall -o bin/boing boing.c
+          test -f boing/bin/boing || (echo "boing binary not found"; exit 1)
+          file boing/bin/boing
+
+      - name: Build claude
+        run: |
+          make -C claude/client bin/claude
+          test -f claude/client/bin/claude || (echo "claude binary not found"; exit 1)
+
+      - name: Build gemini
+        run: |
+          make -C gemini bin/gemini
+          test -f gemini/bin/gemini || (echo "gemini binary not found"; exit 1)
+
+      - name: Build lua
+        run: |
+          bash lua/build.sh cross
+          test -f lua/bin/lua || (echo "lua binary not found"; exit 1)
+          test -f lua/bin/luac || (echo "luac binary not found"; exit 1)
+
+      - name: Build mastodon
+        run: |
+          make -C mastodon bin/mastodon
+          test -f mastodon/bin/mastodon || (echo "mastodon binary not found"; exit 1)
+
+      - name: Build mcp
+        run: |
+          make -C mcp bin/mcp-amiga
+          test -f mcp/bin/mcp-amiga || (echo "mcp binary not found"; exit 1)
+
+      - name: Build narrator
+        run: |
+          make -C narrator bin/say
+          test -f narrator/bin/say || (echo "narrator binary not found"; exit 1)
+
+      - name: Build nostr
+        run: |
+          make -C nostr bin/nostr
+          test -f nostr/bin/nostr || (echo "nostr binary not found"; exit 1)
+
+      - name: Verify all binaries
+        run: |
+          echo "=== Build Summary ==="
+          echo "boing:    $(file -b boing/bin/boing)"
+          echo "claude:   $(file -b claude/client/bin/claude)"
+          echo "gemini:   $(file -b gemini/bin/gemini)"
+          echo "lua:      $(file -b lua/bin/lua)"
+          echo "luac:     $(file -b lua/bin/luac)"
+          echo "mastodon: $(file -b mastodon/bin/mastodon)"
+          echo "mcp:      $(file -b mcp/bin/mcp-amiga)"
+          echo "narrator: $(file -b narrator/bin/say)"
+          echo "nostr:    $(file -b nostr/bin/nostr)"

@@ -24,3 +24,6 @@ lua/emu-test/
 
 # mastodon test-complete marker (regenerated each run)
 **/masto_done.txt
+
+# release staging (artifacts attach to GitHub releases, not tracked)
+/dist/
