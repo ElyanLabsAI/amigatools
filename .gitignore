@@ -21,3 +21,6 @@ lua/emu-test/
 
 # scratch
 *.tmp
+
+# mastodon test-complete marker (regenerated each run)
+**/masto_done.txt

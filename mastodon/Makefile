@@ -18,11 +18,11 @@
 # AmiSSL SDK vendored in this repo.
 
 REPO    := $(abspath ..)
-AMISSL  := $(REPO)/python/src/amissl-sdk/AmiSSL/Developer
+AMISSL  := $(REPO)/common/amissl-sdk/Developer
 DOCKER  := docker run --rm -v $(REPO):/work -w /work/mastodon \
              amigadev/crosstools:m68k-amigaos
-GINC    := /work/python/src/amissl-sdk/AmiSSL/Developer/include
-GLIB    := /work/python/src/amissl-sdk/AmiSSL/Developer/lib/AmigaOS3
+GINC    := /work/common/amissl-sdk/Developer/include
+GLIB    := /work/common/amissl-sdk/Developer/lib/AmigaOS3
 
 # -m68020, NOT -m68000: bebbo gcc miscompiles the variable-multiply helper
 # (__mulsi3) and 64-bit shifts at -m68000, which HANGS the binary at runtime

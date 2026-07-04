@@ -28,11 +28,11 @@ bsdsocket_library = 1
 # Boot volume: this test's shared directory, mounted as DH0:/SYS:. Holds the
 # mastodon binary, the token fixture, and S/startup-sequence; masto.log is
 # written here (host-visible).
-hard_drive_0 = /home/scott/rustchain-amiga/mastodon/test/shared
+hard_drive_0 = /home/scott/amigatools/mastodon/test/shared
 hard_drive_0_label = Mastodon
 
 fullscreen = 0
 initial_input_grab = 0
 automatic_input_grab = 0
 floppy_drive_volume = 0
-screenshots_output_dir = /home/scott/rustchain-amiga/mastodon/test/screenshots
+screenshots_output_dir = /home/scott/amigatools/mastodon/test/screenshots

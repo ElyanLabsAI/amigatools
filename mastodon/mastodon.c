@@ -6,10 +6,9 @@
  *                            token), print each toot's author + text.
  *   mastodon post "text"     POST /api/v1/statuses, "Tooting from an Amiga."
  *
- * Auth: a bearer token read from ENV:MASTODON_TOKEN or SYS:.mastodon/token.
- * The token is never hardcoded and never leaves the Amiga except inside the
- * request it authenticates. Instance host comes from ENV:MASTODON_HOST or
- * --host.
+ * Auth: a bearer token read from SYS:.mastodon/token. The token is never
+ * hardcoded and never leaves the Amiga except inside the request it
+ * authenticates. Instance host comes from the --host flag.
  *
  * Two transports, same pattern as claude/client/claude.c:
  *   1. PRIMARY  - AmiSSL direct HTTPS straight to the instance. Self
@@ -668,9 +667,11 @@ static int net_open(void)
 {
     if (SocketBase)
         return 1;
-    SocketBase = OpenLibrary((STRPTR)"bsdsocket.library", 4);
+    /* Open version 3, not 4: on AROS the v4 CloseLibrary path hangs at exit.
+       v3 is the widely-available Roadshow/AmiTCP interface and is enough. */
+    SocketBase = OpenLibrary((STRPTR)"bsdsocket.library", 3);
     if (!SocketBase) {
-        fprintf(stderr, "[mastodon] bsdsocket.library v4 not available\n");
+        fprintf(stderr, "[mastodon] bsdsocket.library v3 not available\n");
         fprintf(stderr, "           start a TCP/IP stack (Roadshow/AmiTCP)\n");
         return 0;
     }
@@ -1042,20 +1043,20 @@ static long amissl_request(const char *method, const char *host, const char *pat
     return total;
 }
 
-/* ---- token / host loading (Amiga: ENV: then SYS:.mastodon/token) ------ */
+/* ---- token / host loading (Amiga: --host flag + SYS:.mastodon/token) --- */
 
+/* No environment-variable reading on the Amiga path. Both libnix getenv()
+   and dos.library GetVar() fault on real vintage Kickstart ROMs and on bare
+   AROS boots (verified in FS-UAE: the trap is inside the call itself, whether
+   or not ENV: is mounted or a Shell CLI is present). Rather than depend on a
+   ROM API that isn't portable, the Amiga build reads its instance host from
+   the --host flag and its access token from SYS:.mastodon/token. Both work
+   identically on every Amiga from a 1.3 A500 to the latest AROS. */
 static void load_token(void)
 {
-    char *env;
     BPTR fh;
 
     g_token[0] = '\0';
-    env = getenv("MASTODON_TOKEN");
-    if (env && env[0]) {
-        strncpy(g_token, env, sizeof(g_token) - 1);
-        g_token[sizeof(g_token) - 1] = '\0';
-        return;
-    }
 
     fh = Open((STRPTR)"SYS:.mastodon/token", MODE_OLDFILE);
     if (fh) {
@@ -1079,15 +1080,8 @@ static void load_token(void)
 
 static void load_host(void)
 {
-    char *env;
-
-    if (g_host[0])
-        return;
-    env = getenv("MASTODON_HOST");
-    if (env && env[0]) {
-        strncpy(g_host, env, sizeof(g_host) - 1);
-        g_host[sizeof(g_host) - 1] = '\0';
-    }
+    /* Host comes from the --host flag on the Amiga (see load_token comment on
+       why ENV: is not read here). Nothing to do if it was already provided. */
 }
 
 #else /* !AMIGA_TARGET: native POSIX build, --proxy only */
@@ -1204,8 +1198,7 @@ static void do_post(const char *text)
     int status;
 
     if (!g_token[0]) {
-        fprintf(stderr, "[mastodon] posting needs a token. Set ENV:MASTODON_TOKEN "
-                        "or SYS:.mastodon/token\n");
+        fprintf(stderr, "[mastodon] posting needs a token in SYS:.mastodon/token\n");
         return;
     }
     if (build_status_post_body(jsonbody, sizeof(jsonbody), text) < 0) {
@@ -1256,12 +1249,11 @@ static void usage(void)
     printf("  mastodon post \"text\"           post a status (\"toot\")\n\n");
     printf("Options:\n");
     printf("  --host NAME         instance host, e.g. mastodon.social\n");
-    printf("                      (or set ENV:MASTODON_HOST)\n");
     printf("  --proxy host:port   use the plain-HTTP host bridge (no AmiSSL)\n");
     printf("  --insecure          skip TLS certificate verification\n");
     printf("  -v, --verbose       print transport progress\n");
     printf("  -h, --help          this help\n\n");
-    printf("Token: ENV:MASTODON_TOKEN or SYS:.mastodon/token. Needed for the\n");
+    printf("Token: put a bearer token in SYS:.mastodon/token. Needed for the\n");
     printf("home timeline and for posting; the public timeline works without one.\n");
 }
 
@@ -1317,8 +1309,7 @@ int main(int argc, char **argv)
     load_token();
 
     if (!g_host[0]) {
-        fprintf(stderr, "[mastodon] no instance host. Set ENV:MASTODON_HOST or "
-                        "--host name\n");
+        fprintf(stderr, "[mastodon] no instance host. Pass --host name\n");
         return 5;
     }
     if (cmd == 2 && !text) {
