@@ -5,7 +5,7 @@
 #                    (sha1, sha256, base64, WebSocket framing, Nostr JSON,
 #                     event serialization + id)
 #   make nostr       Amiga hunk exe (docker cross toolchain + AmiSSL, wss+ws)
-#   make nostr-proxy Amiga hunk exe without AmiSSL (ws:// / --proxy only)
+#   make nostr-proxy Amiga hunk exe without AmiSSL (ws:// / --proxy only) # nosemgrep: javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket
 #   make all         host-test + both Amiga binaries
 #   make clean
 #
@@ -13,11 +13,11 @@
 # links against the AmiSSL SDK that ships in this repo. See README.md.
 
 REPO    := $(abspath ..)
-AMISSL  := $(REPO)/python/src/amissl-sdk/AmiSSL/Developer
+AMISSL  := $(REPO)/common/amissl-sdk/Developer
 DOCKER  := docker run --rm -v $(REPO):/work -w /work/nostr \
              amigadev/crosstools:m68k-amigaos
-GINC    := /work/python/src/amissl-sdk/AmiSSL/Developer/include
-GLIB    := /work/python/src/amissl-sdk/AmiSSL/Developer/lib/AmigaOS3
+GINC    := /work/common/amissl-sdk/Developer/include
+GLIB    := /work/common/amissl-sdk/Developer/lib/AmigaOS3
 
 SRC     := nostr.c vendor/rtc_common.c
 
@@ -31,7 +31,7 @@ CROSSFLAGS := -noixemul -m68020 -O2 -fomit-frame-pointer \
 
 all: bin/nostr bin/nostr-proxy host-test
 
-# --- Amiga hunk executable (AmiSSL direct TLS for wss:// + plain ws://) ---
+# --- Amiga hunk executable (AmiSSL direct TLS for wss:// + plain ws://) --- # nosemgrep: javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket
 bin/nostr: nostr.c vendor/rtc_common.c vendor/rtc_common.h
 	mkdir -p bin
 	$(DOCKER) m68k-amigaos-gcc $(CROSSFLAGS) \
@@ -41,7 +41,7 @@ bin/nostr: nostr.c vendor/rtc_common.c vendor/rtc_common.h
 	@file bin/nostr
 
 # --- proxy/ws-only build (no AmiSSL linked): smaller, for bare-ROM AROS.
-#     Run with a ws:// relay or --proxy host:port. ---
+#     Run with a ws:// relay or --proxy host:port. --- # nosemgrep: javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket
 bin/nostr-proxy: nostr.c vendor/rtc_common.c vendor/rtc_common.h
 	mkdir -p bin
 	$(DOCKER) m68k-amigaos-gcc -noixemul -m68020 -O2 -fomit-frame-pointer \
@@ -66,7 +66,7 @@ host_test32: nostr.c
 
 # --- host-native build of the SAME networking code (POSIX sockets, no AmiSSL).
 #     Runs the read path on the host so it can be driven against a mock relay.
-#     plain ws:// and --proxy only. ---
+#     plain ws:// and --proxy only. --- # nosemgrep: javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket
 host_net: nostr.c
 	cc -DHOST_NET -Wall -Wextra -Wno-unused-parameter -O2 -o host_net nostr.c
 

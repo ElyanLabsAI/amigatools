@@ -10,11 +10,11 @@
 # links against the AmiSSL SDK that ships in this repo. See ../README.md.
 
 REPO    := $(abspath ../..)
-AMISSL  := $(REPO)/python/src/amissl-sdk/AmiSSL/Developer
+AMISSL  := $(REPO)/common/amissl-sdk/Developer
 DOCKER  := docker run --rm -v $(REPO):/work -w /work/claude/client \
              amigadev/crosstools:m68k-amigaos
-GINC    := /work/python/src/amissl-sdk/AmiSSL/Developer/include
-GLIB    := /work/python/src/amissl-sdk/AmiSSL/Developer/lib/AmigaOS3
+GINC    := /work/common/amissl-sdk/Developer/include
+GLIB    := /work/common/amissl-sdk/Developer/lib/AmigaOS3
 
 SRC     := claude.c vendor/rtc_common.c
 # -m68020: the client requires a full AmiSSL + bsdsocket AROS (A4000/040 class,

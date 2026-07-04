@@ -16,8 +16,8 @@
 REPO    := $(abspath ..)
 DOCKER  := docker run --rm -v $(REPO):/work -w /work/gemini \
              amigadev/crosstools:m68k-amigaos
-GINC    := /work/python/src/amissl-sdk/AmiSSL/Developer/include
-GLIB    := /work/python/src/amissl-sdk/AmiSSL/Developer/lib/AmigaOS3
+GINC    := /work/common/amissl-sdk/Developer/include
+GLIB    := /work/common/amissl-sdk/Developer/lib/AmigaOS3
 
 # -m68020: this client needs a full AmiSSL + bsdsocket AROS (A4000/040 class,
 # never a bare 68000). -m68020 emits native 32-bit MULU.L/MULS.L instead of
