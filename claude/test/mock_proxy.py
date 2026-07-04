@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """
 mock_proxy.py - a canned Anthropic-shaped endpoint for the in-guest FS-UAE
 test. NO API key, NO network to Anthropic. It speaks the same plain-HTTP

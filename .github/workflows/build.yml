@@ -13,7 +13,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        # Pinned to a full commit SHA (not the mutable v4 tag) so the tag
+        # can't be silently repointed by the action owner (supply-chain
+        # hardening; semgrep: github-actions-mutable-action-tag).
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Build boing
         run: |

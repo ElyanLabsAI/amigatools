@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """
 mock_relay_host.py - FS-UAE in-guest test copy of nostr/tools/mock_relay.py.
 
@@ -35,7 +36,10 @@ def recv_http_headers(conn):
 
 
 def ws_accept(key):
-    return base64.b64encode(hashlib.sha1(key.encode() + GUID).digest()).decode()
+    # SHA-1 here is not a security control: RFC 6455 Sec. 1.3 mandates SHA-1
+    # for the Sec-WebSocket-Accept handshake value, so this must match the
+    # spec exactly, not use a stronger hash.
+    return base64.b64encode(hashlib.sha1(key.encode() + GUID).digest()).decode()  # nosemgrep: python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1
 
 
 def send_text_frame(conn, text):
@@ -74,11 +78,11 @@ def read_client_frame(conn):
 
 
 def main():
-    srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # nosemgrep: python.lang.security.audit.network.bind.avoid-bind-to-all-interfaces -- intentional, see module docstring above; local test fixture only
     srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    srv.bind(("0.0.0.0", PORT))
+    srv.bind(("0.0.0.0", PORT))  # nosemgrep: python.lang.security.audit.network.bind.avoid-bind-to-all-interfaces -- intentional, see module docstring above; local test fixture only
     srv.listen(1)
-    print("mock relay listening on ws://0.0.0.0:%d/ (guest reaches it at 127.0.0.1)" % PORT,
+    print("mock relay listening on ws://0.0.0.0:%d/ (guest reaches it at 127.0.0.1)" % PORT,  # nosemgrep: javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket -- local test-only mock relay, plaintext by design
           flush=True)
 
     conn, addr = srv.accept()

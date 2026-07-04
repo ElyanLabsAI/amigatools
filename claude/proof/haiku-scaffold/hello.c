@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 #include <stdio.h>
 #include <dos/dos.h>
 #include <clib/dos_protos.h>

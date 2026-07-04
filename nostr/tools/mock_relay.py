@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """
 mock_relay.py - a tiny hand-rolled Nostr relay for testing nostr.c.
 
@@ -28,7 +29,10 @@ def recv_http_headers(conn):
 
 
 def ws_accept(key):
-    return base64.b64encode(hashlib.sha1(key.encode() + GUID).digest()).decode()
+    # SHA-1 here is not a security control: RFC 6455 Sec. 1.3 mandates SHA-1
+    # for the Sec-WebSocket-Accept handshake value, so this must match the
+    # spec exactly, not use a stronger hash.
+    return base64.b64encode(hashlib.sha1(key.encode() + GUID).digest()).decode()  # nosemgrep: python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1
 
 
 def send_text_frame(conn, text):
@@ -71,7 +75,7 @@ def main():
     srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     srv.bind(("127.0.0.1", PORT))
     srv.listen(1)
-    print("mock relay listening on ws://127.0.0.1:%d/" % PORT, flush=True)
+    print("mock relay listening on ws://127.0.0.1:%d/" % PORT, flush=True)  # nosemgrep: javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket -- local test-only mock relay, plaintext by design
 
     conn, addr = srv.accept()
     print("client connected from %s" % (addr,), flush=True)

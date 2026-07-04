@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """
 gemini_amiga_proxy.py - host-side TLS bridge for the Gemini client on the
 Amiga (gemini.c).

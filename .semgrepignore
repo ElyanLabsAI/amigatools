@@ -1,0 +1,17 @@
+# Semgrep ignore list for amigatools.
+#
+# Semgrep's default ignore patterns still apply; this file only adds
+# narrowly-targeted exclusions with a documented reason each. It does not
+# blanket-exclude a directory or file type -- only specific files where a
+# specific rule is a confirmed false positive that can't be suppressed
+# inline (Markdown has no comment syntax semgrep recognizes for nosemgrep).
+#
+# nostr/README.md: triggers the insecure-websocket-scheme rule on literal
+# plaintext-scheme text inside shell-usage code blocks (documentation for
+# users, not executable code). The client's actual C source (nostr.c) is
+# NOT excluded -- every real match there is fixed with an inline
+# `nosemgrep:` comment plus a one-line justification (the encrypted scheme
+# is the primary, preferred transport; the plaintext one is a documented,
+# opt-in transport for local/test relays, chosen only when the caller's
+# URL says so).
+nostr/README.md

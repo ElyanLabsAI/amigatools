@@ -56,6 +56,9 @@ cd gemini && make          # cross-compile to bin/gemini
 cd gemini && make host-test # run the host self-tests
 ```
 
+`make test` from the repo root runs every app's fast host-side self-test in
+one shot (see `tests/README.md` for what that does and does not cover).
+
 See `docs/AMIGA_APP_DEV_GUIDE.md` to add your own tool. It has the m68k
 traps that will otherwise cost you hours (use `-m68020`, no libnix
 `__stack` global, `fflush` stdout, open `bsdsocket` v3, AmigaDOS is not

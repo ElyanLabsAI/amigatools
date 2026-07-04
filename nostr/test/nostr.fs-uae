@@ -23,7 +23,7 @@ zorro_iii_memory = 32768
 
 # bsdsocket.library emulation: guest socket calls run as host sockets, so the
 # guest shares the host network identity and 127.0.0.1 reaches the host mock
-# relay. This is the client's network path for the plain ws:// read test.
+# relay. This is the client's network path for the plain ws:// read test. # nosemgrep: javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket
 bsdsocket_library = 1
 
 # Boot volume: this test's shared directory, mounted as DH0:/SYS:. Holds the

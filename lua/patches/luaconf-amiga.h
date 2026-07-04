@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /*
 ** $Id: luaconf.h $
 ** Configuration file for Lua

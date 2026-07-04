@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """
 canned_capsule.py - a tiny local Gemini capsule (real TLS) that serves a
 fixed gemtext document for ANY request, so the in-guest Amiga test is

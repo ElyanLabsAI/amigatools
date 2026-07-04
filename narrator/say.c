@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /*
  * say.c - speak text through the Amiga narrator.device
  *

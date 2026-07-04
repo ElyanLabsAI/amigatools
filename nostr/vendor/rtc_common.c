@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /*
  * rtc_common.c - shared helpers for the RustChain Amiga tools.
  *

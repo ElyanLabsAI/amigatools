@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /*
 ** lua_libm_compat_amiga.c
 **

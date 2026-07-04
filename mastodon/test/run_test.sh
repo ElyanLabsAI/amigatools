@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: MIT
 # run_test.sh - Mastodon-on-the-Amiga in-guest integration test.
 #
 # Starts a host mock proxy (no API key/token needed), boots AROS m68k

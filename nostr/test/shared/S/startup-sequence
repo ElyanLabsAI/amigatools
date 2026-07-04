@@ -4,7 +4,7 @@
 ; bsdsocket shares the host network identity, so 127.0.0.1 reaches the mock
 ; relay run_test.sh starts on the host before the emulator launches.
 ; This binary is bin/nostr-proxy (no AmiSSL) - the bare AROS ROM has no
-; AmiSSL installed, so we use the plain ws:// path, not wss://.
+; AmiSSL installed, so we use the plain ws:// path, not wss://. nosemgrep: javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket
 echo "nostr test boot OK" >SYS:nostr.log
 
 echo "=== read ===" >>SYS:nostr.log

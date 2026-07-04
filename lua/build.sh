@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
 # build.sh - cross-compile Lua 5.4.7 for m68k AmigaOS, plus a host build
 # of the exact same (patched) sources as a correctness sanity check.
 #

@@ -1,3 +1,4 @@
+-- SPDX-License-Identifier: MIT
 print("6*7 =", 6*7)
 
 -- integer / float type checks (LUA_32BITS: integer=int32, float=float32)

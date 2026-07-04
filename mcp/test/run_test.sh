@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: MIT
 # run_test.sh - Amiga MCP server in-guest integration test.
 #
 # Boots AROS m68k headless in FS-UAE, lets S/startup-sequence run the MCP

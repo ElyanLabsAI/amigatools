@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: MIT
 # run_test.sh - does Lua actually RUN on a real Amiga?
 #
 # Two attempts, both reported honestly:

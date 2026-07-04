@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /*
  * claude.c - Claude on the Amiga (RustChain Amiga Edition, Phase 5)
  *

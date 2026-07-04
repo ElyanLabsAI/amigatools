@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /*
  * mastodon.c - a Mastodon / Fediverse CLI client for classic AmigaOS (m68k)
  *

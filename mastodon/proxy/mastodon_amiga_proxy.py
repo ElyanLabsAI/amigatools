@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """
 mastodon_amiga_proxy.py - host-side plain-HTTP bridge for the Mastodon
 client on the Amiga (mastodon.c), used with `mastodon --proxy host:port`.
@@ -164,7 +165,10 @@ def relay_request(method, host, path, token, body_str):
         req.add_header("Content-Type", "application/json")
     req.add_header("User-Agent", "mastodon-amiga-proxy/1.0")
     try:
-        with urllib.request.urlopen(req, timeout=30) as r:
+        # url's scheme prefix ("https://") above is a fixed literal; host and
+        # path vary but cannot change the scheme, so the file:// substitution
+        # this rule guards against is not reachable here.
+        with urllib.request.urlopen(req, timeout=30) as r:  # nosemgrep: python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected
             return r.status, r.read()
     except urllib.error.HTTPError as e:
         return e.code, e.read()

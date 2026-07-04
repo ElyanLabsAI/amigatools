@@ -1,0 +1,133 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:1c7b8a2e-6b3a-4f2b-9c4e-amigatools-sbom",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-07-04T00:00:00Z",
+    "component": {
+      "type": "application",
+      "name": "amigatools",
+      "version": "0.1.0",
+      "description": "Native m68k AmigaOS/AROS tools by Elyan Labs (Gemini browser, Mastodon and Nostr clients, MCP server, Claude client, Lua, narrator, Boing Ball).",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "supplier": { "name": "Elyan Labs LLC", "url": ["https://elyanlabs.ai"] }
+    },
+    "tools": [
+      { "vendor": "Elyan Labs", "name": "hand-authored SBOM (no build-time package manager; native C/m68k project)", "version": "1" }
+    ]
+  },
+  "components": [
+    {
+      "type": "application",
+      "bom-ref": "amigatools/gemini",
+      "name": "gemini",
+      "description": "Gemini protocol (gemini://) browser for AmigaOS/AROS m68k.",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "purl": "pkg:generic/amigatools/gemini@0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "amigatools/mastodon",
+      "name": "mastodon",
+      "description": "Mastodon/Fediverse client for AmigaOS/AROS m68k.",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "purl": "pkg:generic/amigatools/mastodon@0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "amigatools/nostr",
+      "name": "nostr",
+      "description": "Nostr client (NIP-01 read path, RFC6455 WebSocket) for AmigaOS/AROS m68k.",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "purl": "pkg:generic/amigatools/nostr@0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "amigatools/mcp",
+      "name": "mcp",
+      "description": "Model Context Protocol server running on AmigaOS/AROS m68k, exposing read_file/write_file/run_command over stdio JSON-RPC.",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "purl": "pkg:generic/amigatools/mcp@0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "amigatools/claude",
+      "name": "claude",
+      "description": "Native Anthropic Claude client with a tool-use loop for AmigaOS/AROS m68k.",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "purl": "pkg:generic/amigatools/claude@0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "amigatools/narrator",
+      "name": "narrator",
+      "description": "`say` command driving the Amiga's narrator.device text-to-speech.",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "purl": "pkg:generic/amigatools/narrator@0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "amigatools/boing",
+      "name": "boing",
+      "description": "The Boing Ball demo as native m68k AmigaOS code.",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "purl": "pkg:generic/amigatools/boing@0.1.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "amigatools/common-rtc_common",
+      "name": "rtc_common",
+      "description": "Shared AmiSSL/bsdsocket transport and JSON helpers reused by every tool (common/rtc_common.c|h and each app's vendor/rtc_common.c|h copy).",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "supplier": { "name": "Elyan Labs LLC" },
+      "purl": "pkg:generic/amigatools/rtc_common@0.1.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "vendor/lua",
+      "name": "lua",
+      "version": "5.4.7",
+      "description": "Lua language, ported to m68k AmigaOS/AROS (vendored upstream source under lua/src-lua/, patched under lua/patches/).",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "supplier": { "name": "Lua.org, PUC-Rio", "url": ["https://www.lua.org/"] },
+      "purl": "pkg:generic/lua@5.4.7",
+      "externalReferences": [
+        { "type": "website", "url": "https://www.lua.org/" }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "vendor/amissl-sdk",
+      "name": "amissl-sdk",
+      "description": "Third-party AmiSSL SDK: OpenSSL-compatible headers/import libs for AmigaOS TLS (common/amissl-sdk/). Vendored, not modified; excluded from this project's own SPDX tagging as third-party code.",
+      "licenses": [{ "license": { "id": "Apache-2.0" } }],
+      "supplier": { "name": "AmiSSL project / OpenSSL", "url": ["https://openssl.org/", "http://amissl.aminet.net/"] },
+      "purl": "pkg:generic/openssl@3.6.2",
+      "externalReferences": [
+        { "type": "website", "url": "https://openssl.org/" }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "amigatools/gemini",
+      "dependsOn": ["amigatools/common-rtc_common", "vendor/amissl-sdk"]
+    },
+    {
+      "ref": "amigatools/mastodon",
+      "dependsOn": ["vendor/amissl-sdk"]
+    },
+    {
+      "ref": "amigatools/nostr",
+      "dependsOn": ["amigatools/common-rtc_common", "vendor/amissl-sdk"]
+    },
+    {
+      "ref": "amigatools/claude",
+      "dependsOn": ["amigatools/common-rtc_common", "vendor/amissl-sdk"]
+    },
+    { "ref": "amigatools/mcp", "dependsOn": [] },
+    { "ref": "amigatools/narrator", "dependsOn": [] },
+    { "ref": "amigatools/boing", "dependsOn": [] }
+  ]
+}

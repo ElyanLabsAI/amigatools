@@ -1,9 +1,10 @@
 #!/bin/bash
+# SPDX-License-Identifier: MIT
 # run_test.sh - Nostr client on the Amiga in-guest READ-PATH test.
 #
 # Starts a host mock Nostr relay (nostr/tools/mock_relay.py's logic, bound to
 # 0.0.0.0 so the guest can reach it), boots AROS m68k headless in FS-UAE, lets
-# S/startup-sequence run bin/nostr-proxy (plain ws://, no AmiSSL needed)
+# S/startup-sequence run bin/nostr-proxy (plain ws://, no AmiSSL needed) # nosemgrep: javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket
 # against it, and verifies from the host that the client completed the
 # WebSocket handshake and printed the two canned notes into SYS:nostr.log.
 #

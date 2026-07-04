@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: MIT
 # run_test.sh - Gemini-on-the-Amiga in-guest integration test.
 #
 # Starts a canned local Gemini capsule (real TLS, fixed gemtext body) and the

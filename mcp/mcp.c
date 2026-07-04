@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /*
  * mcp.c - A native MCP (Model Context Protocol) server for classic AmigaOS
  *         (m68k). RustChain Amiga Edition.

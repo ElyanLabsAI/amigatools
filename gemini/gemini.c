@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /*
  * gemini.c - a Gemini protocol client/browser for classic AmigaOS (m68k)
  * and AROS.

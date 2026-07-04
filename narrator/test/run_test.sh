@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: MIT
 # run_test.sh - narrator say in-guest integration test.
 #
 # Boots AROS m68k headless in FS-UAE on a PRIVATE Xvfb display (:85 - other

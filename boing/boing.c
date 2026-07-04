@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /*
  * boing.c - the Amiga Boing Ball, as native m68k AmigaOS code.
  *

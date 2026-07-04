@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """
 claude_amiga_proxy.py - host-side TLS/key bridge for Claude on the Amiga.
 
@@ -94,7 +95,10 @@ def call_anthropic(api_key, payload):
     req.add_header("anthropic-version", ANTHROPIC_VERSION)
     req.add_header("content-type", "application/json")
     try:
-        with urllib.request.urlopen(req, timeout=120) as r:
+        # ANTHROPIC_URL is a fixed "https://" literal defined above, not
+        # attacker/caller-controlled, so the file:// substitution this rule
+        # guards against is not reachable here.
+        with urllib.request.urlopen(req, timeout=120) as r:  # nosemgrep: python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected
             return r.status, r.read()
     except urllib.error.HTTPError as e:
         # forward the API's own error body verbatim (still useful to the Amiga)
@@ -202,7 +206,10 @@ def call_openrouter(api_key, payload):
     req.add_header("http-referer", "https://github.com/Scottcjn/rustchain-amiga")
     req.add_header("x-title", "Claude on the Amiga")
     try:
-        with urllib.request.urlopen(req, timeout=120) as r:
+        # OPENROUTER_URL is a fixed "https://" literal defined above, not
+        # attacker/caller-controlled, so the file:// substitution this rule
+        # guards against is not reachable here.
+        with urllib.request.urlopen(req, timeout=120) as r:  # nosemgrep: python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected
             oai = json.loads(r.read().decode("utf-8"))
         return 200, json.dumps(_openai_to_anthropic(oai)).encode("utf-8")
     except urllib.error.HTTPError as e:
