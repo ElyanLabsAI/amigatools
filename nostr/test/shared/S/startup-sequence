@@ -1,0 +1,14 @@
+; nostr client on the Amiga - in-guest read-path test (AROS m68k ROM boot)
+; AROS boots this volume and its ROM-internal shell runs S:startup-sequence.
+; SYS: is the boot volume (this directory, shared/), reachable on the host.
+; bsdsocket shares the host network identity, so 127.0.0.1 reaches the mock
+; relay run_test.sh starts on the host before the emulator launches.
+; This binary is bin/nostr-proxy (no AmiSSL) - the bare AROS ROM has no
+; AmiSSL installed, so we use the plain ws:// path, not wss://.
+echo "nostr test boot OK" >SYS:nostr.log
+
+echo "=== read ===" >>SYS:nostr.log
+SYS:nostr -v --eose-exit ws://127.0.0.1:8813/ >>SYS:nostr.log
+
+echo "=== done ===" >>SYS:nostr.log
+echo "nostr test done" >SYS:nostr_done.txt

@@ -1,0 +1,20 @@
+; Amiga MCP server - in-guest integration test (AROS m68k ROM boot)
+; AROS boots this volume (shared/) as SYS: and its ROM shell runs S:startup-sequence.
+; The MCP server reads newline-delimited JSON-RPC from stdin and writes one
+; response line per request to stdout. We drive it with plain AmigaDOS
+; redirection: stdin from requests.txt, stdout to responses.txt.
+
+echo "[mcp test] boot OK" >SYS:mcp_boot.txt
+
+; The run_command tool captures shell output to T:mcp_cmd.out. This minimal
+; AROS ROM boot has no T: assign, so Open("T:...") would pop a blocking
+; "insert volume T" requester headless. This bare ROM boot has no RAM: handler
+; mounted either, so assign T: to the boot volume root SYS: (guaranteed to
+; exist and writable) - the capture file lands in shared/, host-visible.
+Assign T: SYS:
+
+; Run the MCP server: feed requests on stdin, capture JSON-RPC on stdout.
+SYS:mcp-amiga <SYS:requests.txt >SYS:responses.txt
+
+; Signal completion for the host poller.
+echo "mcp test complete" >SYS:mcp_done.txt

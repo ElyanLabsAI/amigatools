@@ -1,0 +1,6 @@
+[narrator test] boot OK
+=== dry-run ===
+say: cannot open translator.library
+=== live (no --dry-run) ===
+say: cannot open translator.library
+=== done ===

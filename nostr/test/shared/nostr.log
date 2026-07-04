@@ -1,0 +1,17 @@
+nostr test boot OK
+=== read ===
+[nostr] connected to 127.0.0.1:8813 (plain)
+[nostr] handshake sent, awaiting 101
+[nostr] WebSocket open (0 leftover byte(s) buffered)
+[nostr] -> ["REQ","sub1",{"kinds":[1],"limit":20}]
+----------------------------------------
+author : npub_deadbeef_author_one
+at     : 1700000000 (kind 1)
+Hello from a real WebSocket relay to the Amiga! ♥
+----------------------------------------
+author : npub_cafe_author_two
+at     : 1700000600 (kind 1)
+Second note.
+With a newline and a "quote".
+---- end of stored events (2 shown) ----
+=== done ===

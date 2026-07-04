@@ -1,0 +1,11 @@
+[claude test] boot OK, starting client[0m
+=== chat ===
+[claude] proxy connecting to 127.0.0.1:8791
+[claude] connected, sending 927 bytes
+[claude] request sent, waiting for reply
+[claude] got 414 bytes
+Hello from the Amiga! (mock reply)
+=== tool-use ===
+Sure, I will write that file for you.
+Done. The file was written on the Amiga by the tool-use loop.
+=== done ===

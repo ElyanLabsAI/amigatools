@@ -1,0 +1,23 @@
+; Mastodon on the Amiga - in-guest integration test (AROS m68k ROM boot)
+; DIAGNOSTIC VARIANT: extra echo markers + a no-args run first, so a silent
+; failure of the mastodon binary itself is visible in the log even if a
+; later step hangs or aborts the script (AmigaDOS default FailAt).
+
+FailAt 21
+
+echo "*E[mastodon test] boot OK, starting client*E[0m" >SYS:masto.log
+
+echo "=== bare (usage) ===" >>SYS:masto.log
+SYS:mastodon >>SYS:masto.log
+echo "bare rc" >>SYS:masto.log
+
+echo "=== timeline ===" >>SYS:masto.log
+SYS:mastodon timeline --host mock.example --proxy 127.0.0.1:8812 -v >>SYS:masto.log
+echo "timeline rc" >>SYS:masto.log
+
+echo "=== post ===" >>SYS:masto.log
+SYS:mastodon post "Tooting from a 68k Amiga" --host mock.example --proxy 127.0.0.1:8812 -v >>SYS:masto.log
+echo "post rc" >>SYS:masto.log
+
+echo "=== done ===" >>SYS:masto.log
+echo "mastodon test complete" >SYS:masto_done.txt

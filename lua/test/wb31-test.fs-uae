@@ -1,0 +1,18 @@
+# Lua on real Workbench 3.1 (Kickstart 3.1 + licensed WB3.1 install).
+# hard_drive_0 is a /tmp COPY of the personal HDF (NEVER the tracked file);
+# run_test.sh makes the copy and injects the Lua drawer before boot.
+# hard_drive_1 is a host directory mounted as Out: so Lua's output file is
+# readable on the host without unpacking the HDF.
+[fs-uae]
+amiga_model = A4000/040
+kickstart_file = /home/scott/rustchain-amiga/emu/roms/kickstart/kick310-a4000.rom
+hard_drive_0 = /tmp/luatest/wb.hdf
+hard_drive_1 = /tmp/luatest/out
+hard_drive_1_label = Out
+chip_memory = 2048
+zorro_iii_memory = 32768
+bsdsocket_library = 1
+fullscreen = 0
+initial_input_grab = 0
+automatic_input_grab = 0
+floppy_drive_volume = 0

@@ -1,0 +1,39 @@
+# Nostr client on the Amiga - in-guest read-path test config
+# (FS-UAE 3.1.66 + AROS m68k, no commercial Kickstart)
+#
+# Boots the open-source AROS m68k ROM and auto-runs S/startup-sequence,
+# which launches bin/nostr-proxy (no AmiSSL needed) against a host mock
+# relay reachable at 127.0.0.1:8813 via bsdsocket_library passthrough.
+#
+# Driven by run_test.sh (starts the mock relay, boots headless, checks the
+# guest-written log). Manual run:
+#   python3 mock_relay.py --host 0.0.0.0 --port 8813 &
+#   xvfb-run -a -s "-screen 0 1024x768x24" fs-uae nostr.fs-uae
+[fs-uae]
+
+# A4000/040: AROS m68k boots on 68020+; 32-bit addressing for Zorro III RAM.
+amiga_model = A4000/040
+
+# AROS m68k Kickstart replacement (open source). Shared with the other ports.
+kickstart_file = /home/scott/rustchain-amiga/emu/roms/aros-amiga-m68k-rom.bin
+kickstart_ext_file = /home/scott/rustchain-amiga/emu/roms/aros-amiga-m68k-ext.bin
+
+chip_memory = 2048
+zorro_iii_memory = 32768
+
+# bsdsocket.library emulation: guest socket calls run as host sockets, so the
+# guest shares the host network identity and 127.0.0.1 reaches the host mock
+# relay. This is the client's network path for the plain ws:// read test.
+bsdsocket_library = 1
+
+# Boot volume: this test's shared directory, mounted as DH0:/SYS:. Holds the
+# nostr-proxy binary (as "nostr") and S/startup-sequence; the client writes
+# SYS:nostr.log here (host-visible).
+hard_drive_0 = /home/scott/rustchain-amiga/nostr/test/shared
+hard_drive_0_label = Nostr
+
+fullscreen = 0
+initial_input_grab = 0
+automatic_input_grab = 0
+floppy_drive_volume = 0
+screenshots_output_dir = /home/scott/rustchain-amiga/nostr/test/screenshots

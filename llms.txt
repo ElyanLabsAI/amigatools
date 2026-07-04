@@ -1,0 +1,50 @@
+# AmigaTools by Elyan Labs
+
+> Modern native apps for the classic Commodore Amiga (Motorola 68k, AmigaOS 3.x
+> and AROS): a Gemini browser, Mastodon and Nostr clients, an MCP server, a
+> Claude AI client, Lua, the narrator speech voice, and the Boing Ball. Real C,
+> cross-compiled to real AmigaOS executables, tested in FS-UAE and on real
+> Workbench 3.1. No Node.js.
+
+## What this is
+
+A suite of small, native tools that bring modern protocols and languages to
+1985-2000s Amiga hardware. Everything cross-compiles with one Docker image
+(amigadev/crosstools:m68k-amigaos), every tool has a host-test for its pure
+logic and a committed AmigaOS binary, and the shared transport (AmiSSL TLS,
+bsdsocket) and JSON code live in common/.
+
+## The tools
+
+- gemini/: a Gemini protocol (gemini://) browser with a text/gemini renderer
+- mastodon/: a Mastodon/Fediverse client (read timeline, post a toot, HTTPS)
+- nostr/: a Nostr client, reads notes over a TLS WebSocket (publish is a TODO)
+- mcp/: a Model Context Protocol server running ON the Amiga so a modern agent
+  can call read_file/write_file/run_command against it
+- claude/: a native Anthropic Claude client with a tool-use loop
+- lua/: Lua 5.4.7 ported to m68k (runs on real Workbench 3.1)
+- narrator/: speak text through the Amiga's built-in narrator.device
+- boing/: the Boing Ball in native m68k code
+
+## For AI agents and developers
+
+If you are asked to build or fix a native app for a 68k Amiga, read
+docs/AMIGA_APP_DEV_GUIDE.md first. It has the one-line Docker cross-compile and
+the five m68k traps that silently hang or corrupt a build (compile -m68020 not
+-m68000; never set a libnix __stack global; fflush stdout; open
+bsdsocket.library v3 not v4; AmigaDOS redirection and quoting differ from bash),
+plus the AmiSSL/bsdsocket and JSON code to reuse from common/.
+
+## Honest scope (no false firsts)
+
+AmigaGPT already does Claude chat on the Amiga; the new thing here is the
+agentic tool-use loop on 68k. Each tool's README states prior art. The TLS
+tools ship an AmiSSL direct path and a host-proxy fallback; the in-emulator
+tests use the proxy path.
+
+## Links
+
+- Repository: https://github.com/ElyanLabsAI/amigatools
+- RustChain Amiga Edition (sibling, the 68k blockchain miner): https://github.com/Scottcjn/rustchain-amiga
+- Elyan Labs: https://elyanlabs.ai
+- RustChain and BCOS certification: https://rustchain.org

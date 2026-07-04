@@ -1,0 +1,25 @@
+; narrator say - in-guest test (AROS m68k ROM boot)
+; AROS boots this volume and its ROM-internal shell runs S:startup-sequence.
+; SYS: is this shared/ directory, so say.log is readable from the host.
+;
+; Honest expectation: the AROS ROM likely ships neither translator.library
+; (LIBS:) nor narrator.device (DEVS:) - Commodore Workbench 3.x did not
+; either. say should then fail gracefully with its own error message; that
+; message landing in say.log is a valid result. If the translator IS present,
+; the dry run prints phonemes like /HEHLOW FRAHM DHAH AHMIYGAH.
+
+; say returns 20 (FAIL) when translator.library is missing; the shell's
+; default failat 10 would abort this script there. Raise it so we still
+; run the live attempt and write the done marker.
+failat 21
+
+echo "[narrator test] boot OK" >SYS:say.log
+
+echo "=== dry-run ===" >>SYS:say.log
+SYS:say --dry-run "Hello from the Amiga" >>SYS:say.log
+
+echo "=== live (no --dry-run) ===" >>SYS:say.log
+SYS:say "Hello from the Amiga" >>SYS:say.log
+
+echo "=== done ===" >>SYS:say.log
+echo "narrator test complete" >SYS:say_done.txt

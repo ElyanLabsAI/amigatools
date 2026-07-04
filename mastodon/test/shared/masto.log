@@ -1,0 +1,20 @@
+[mastodon test] boot OK, starting client[0m
+=== bare (usage) ===
+mastodon - a Fediverse/Mastodon CLI client for AmigaOS
+
+Usage:
+  mastodon timeline              show the home (or public) timeline
+  mastodon post "text"           post a status ("toot")
+
+Options:
+  --host NAME         instance host, e.g. mastodon.social
+                      (or set ENV:MASTODON_HOST)
+  --proxy host:port   use the plain-HTTP host bridge (no AmiSSL)
+  --insecure          skip TLS certificate verification
+  -v, --verbose       print transport progress
+  -h, --help          this help
+
+Token: ENV:MASTODON_TOKEN or SYS:.mastodon/token. Needed for the
+home timeline and for posting; the public timeline works without one.
+bare rc
+=== timeline ===

@@ -1,0 +1,16 @@
+# Lua on bare AROS m68k ROM (expected to FAIL: minimal AROS ROM lacks the
+# mathieee*.library set libnix soft-float calls into). Confirms the documented
+# limitation. SYS: is a host directory so lua_aros.log is host-readable.
+[fs-uae]
+amiga_model = A4000/040
+kickstart_file = /home/scott/rustchain-amiga/emu/roms/aros-amiga-m68k-rom.bin
+kickstart_ext_file = /home/scott/rustchain-amiga/emu/roms/aros-amiga-m68k-ext.bin
+chip_memory = 2048
+zorro_iii_memory = 32768
+bsdsocket_library = 1
+hard_drive_0 = /home/scott/rustchain-amiga/lua/test/aros-hd
+hard_drive_0_label = LuaAros
+fullscreen = 0
+initial_input_grab = 0
+automatic_input_grab = 0
+floppy_drive_volume = 0

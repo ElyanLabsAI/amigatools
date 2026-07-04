@@ -1,0 +1,23 @@
+# build artifacts and host-test binaries (the committed AmigaOS bin/ stays)
+**/host_test
+**/host_test32
+**/host_mastodon_proxydemo
+**/host_net
+**/*.o
+**/__pycache__/
+
+# FS-UAE writes .uaem sidecar files next to guest files
+**/*.uaem
+
+# lua: upstream source (build.sh refetches) and native build artifacts
+lua/src-lua/
+lua/host/lua
+lua/host/luac
+lua/build/
+lua/emu-test/
+
+# throwaway self-signed test TLS material
+**/*.pem
+
+# scratch
+*.tmp

@@ -1,0 +1,3 @@
+echo "aros lua test boot" >SYS:lua_aros.log
+SYS:lua SYS:hello.lua >>SYS:lua_aros.log
+echo "startup done" >>SYS:lua_aros.log
