@@ -29,16 +29,16 @@ one `gcc` command.
 
 ## Auth and where the token lives
 
-The token is read from `ENV:MASTODON_TOKEN`, or failing that from a plain
-text file at `SYS:.mastodon/token` (just the token, nothing else). It is
-never hardcoded in `mastodon.c` and is not committed anywhere in this repo -
-grep the source yourself, the only "token" string in it is the fixture
-`testtoken123` used by the host self-test. The instance host comes from
-`ENV:MASTODON_HOST` or `--host name`.
+The token is read from a plain text file at `SYS:.mastodon/token` (just the
+token, nothing else). It is never hardcoded in `mastodon.c` and is not
+committed anywhere in this repo - grep the source yourself, the only "token"
+string in it is the fixture `testtoken123` used by the host self-test. The
+instance host comes from `--host name`. (Environment variables are not used
+on the Amiga: `getenv`/`GetVar` fault on bare ROMs, see the note at the end.)
 
 In **AmiSSL direct mode** the token goes straight from the Amiga's own
-environment/file into the TLS-encrypted request the Amiga itself makes to
-the instance. Nothing else ever sees it.
+file into the TLS-encrypted request the Amiga itself makes to the instance.
+Nothing else ever sees it.
 
 In **proxy mode** (`--proxy host:port`, see below) the Amiga is still the
 one deciding what to send: it builds a small JSON envelope containing the
@@ -187,16 +187,17 @@ host/token the Amiga (or `host_mastodon_proxydemo`) sends it.
 On the Amiga:
 
 ```
-setenv MASTODON_HOST mastodon.social
-setenv MASTODON_TOKEN your-access-token
-copy ENV:MASTODON_HOST ENVARC: ; copy ENV:MASTODON_TOKEN ENVARC:   ; to persist
+makedir SYS:.mastodon
+; put your access token (just the token, one line) in the file below
+copy your-token-file SYS:.mastodon/token
 
-mastodon timeline
-mastodon post "Hello from a real 68k Amiga."
+mastodon timeline --host mastodon.social
+mastodon post "Hello from a real 68k Amiga." --host mastodon.social
 ```
 
-Or put the token in `SYS:.mastodon/token` instead of `ENV:MASTODON_TOKEN` if
-you would rather not have it in the shell environment.
+The token lives in `SYS:.mastodon/token` and the instance is passed with
+`--host`. Environment variables are deliberately not used on the Amiga:
+`getenv`/`GetVar` fault on bare Kickstart/AROS ROMs.
 
 ### Option B - host proxy
 
@@ -235,14 +236,10 @@ mastodon/
 - The proxy transport's trust model is different from `claude/client/`'s
   (see "Auth and where the token lives" above) - know that before pointing
   `--proxy` at a bridge you do not control.
-- KNOWN BUG: does not yet run in-guest. Booted under FS-UAE (AROS m68k), the
-  bare `mastodon` (usage) prints fine, but `mastodon timeline` CRASHES the
-  moment it enters the network path (`CPU halted: reason = 3`, illegal memory
-  access) before a single packet reaches the wire (confirmed with tcpdump on
-  loopback: zero packets). The identical client logic compiled natively
-  (`-DHOST_PROXY_DEMO`) works end to end over the proxy, so this is an
-  m68k/AmigaOS-specific bug in the client's own network code
-  (`net_open` / `tcp_connect` / `proxy_request`), not the shared C logic.
-  This is real and unfixed; the host path works, the Amiga path does not yet.
-  See `test/` for the harness and the captured crash. Fixing this is the next
-  job for this tool.
+- Config on the Amiga is by `--host` and the `SYS:.mastodon/token` file only,
+  not environment variables. An earlier in-guest crash (`CPU halted, illegal
+  memory access` before any packet reached the wire) was traced under FS-UAE
+  to the environment read in `load_token`: both libnix `getenv()` and
+  dos.library `GetVar()` fault on a bare AROS/Kickstart ROM, whether or not
+  `ENV:` is mounted or a Shell CLI is present. Dropping the env read fixed it.
+  `mastodon timeline` now fetches and renders toots in-guest; see `test/`.
