@@ -235,10 +235,14 @@ mastodon/
 - The proxy transport's trust model is different from `claude/client/`'s
   (see "Auth and where the token lives" above) - know that before pointing
   `--proxy` at a bridge you do not control.
-- Not tested on real hardware or under FS-UAE in this session - `bin/mastodon`
-  is verified as a real AmigaOS hunk executable (`file` says
-  `AmigaOS loadseg()ble executable/binary`) and the identical client logic
-  is proven end to end over the proxy path natively (see above), but nobody
-  has yet booted it on a Workbench/AROS image the way `claude/test/` does
-  for the Claude client. That would be the natural next step if this needs
-  to be demoed live on a real or emulated Amiga.
+- KNOWN BUG: does not yet run in-guest. Booted under FS-UAE (AROS m68k), the
+  bare `mastodon` (usage) prints fine, but `mastodon timeline` CRASHES the
+  moment it enters the network path (`CPU halted: reason = 3`, illegal memory
+  access) before a single packet reaches the wire (confirmed with tcpdump on
+  loopback: zero packets). The identical client logic compiled natively
+  (`-DHOST_PROXY_DEMO`) works end to end over the proxy, so this is an
+  m68k/AmigaOS-specific bug in the client's own network code
+  (`net_open` / `tcp_connect` / `proxy_request`), not the shared C logic.
+  This is real and unfixed; the host path works, the Amiga path does not yet.
+  See `test/` for the harness and the captured crash. Fixing this is the next
+  job for this tool.

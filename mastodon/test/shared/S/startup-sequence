@@ -1,7 +1,17 @@
 ; Mastodon on the Amiga - in-guest integration test (AROS m68k ROM boot)
-; DIAGNOSTIC VARIANT: extra echo markers + a no-args run first, so a silent
-; failure of the mastodon binary itself is visible in the log even if a
-; later step hangs or aborts the script (AmigaDOS default FailAt).
+; AROS boots this volume and its ROM-internal shell runs S:startup-sequence.
+; SYS: is the boot volume (this directory, shared/), reachable on the host.
+; bsdsocket shares the host network identity, so the guest's own 127.0.0.1
+; reaches the mock proxy run_test.sh starts on the host before the emulator
+; launches (0.0.0.0:8812). Token comes from SYS:.mastodon/token (see
+; mastodon/README.md), not from an env var, since the minimal ROM shell may
+; not have SetEnv available.
+;
+; FailAt 21: default AmigaDOS FailAt (10) would already let RC 20 (unknown
+; arg) continue, this just documents that policy explicitly.
+; A leading "bare" no-args run is included first so a silent failure of the
+; binary itself would still leave evidence in the log even if a later step
+; never returns (see mastodon/test/ README notes / final report).
 
 FailAt 21
 
@@ -11,10 +21,12 @@ echo "=== bare (usage) ===" >>SYS:masto.log
 SYS:mastodon >>SYS:masto.log
 echo "bare rc" >>SYS:masto.log
 
+; --- 1. timeline: mock bridge returns 3 canned toots (one is a boost) ---
 echo "=== timeline ===" >>SYS:masto.log
 SYS:mastodon timeline --host mock.example --proxy 127.0.0.1:8812 -v >>SYS:masto.log
 echo "timeline rc" >>SYS:masto.log
 
+; --- 2. post: mock bridge echoes back a created status with id/url ---
 echo "=== post ===" >>SYS:masto.log
 SYS:mastodon post "Tooting from a 68k Amiga" --host mock.example --proxy 127.0.0.1:8812 -v >>SYS:masto.log
 echo "post rc" >>SYS:masto.log
