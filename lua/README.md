@@ -132,6 +132,14 @@ No `__stack` global is declared anywhere in this port (Lua's own stack
 is heap-allocated via `lua_newstate`/the allocator, so there is nothing
 to declare a fixed size for).
 
+## Requirements / recommended setup
+
+The cross-compiled binaries link against libnix's libm, which delegates all float operations to the AmigaOS mathieee libraries (mathieeedoubbas.library, mathieeedoubtrans.library, mathieeesingtrans.library). Real Amiga 2.x/3.x systems have these in ROM or in LIBS:. A bare AROS ROM from 2015 does not. To run lua on AROS:
+
+1. If you have a full AROS disk install (not just a minimal boot ROM), the libraries are already present - no action needed.
+2. If you are on bare AROS ROM, copy the mathieee libraries from a full Amiga installation (LIBS:mathieee*.library) into your test LIBS: drawer. Real Workbench 1.3-3.x ships these; an AROS full distribution includes them.
+3. Real hardware (A500+, A1200, A4000 with Kickstart 2.04+) has them in ROM and needs no setup.
+
 ## Verification actually performed
 
 ```

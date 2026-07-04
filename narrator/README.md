@@ -38,12 +38,17 @@ Example dry run output:
 4. Cleanup runs in the correct order: AbortIO/WaitIO if a request is still
    pending, CloseDevice, DeleteIORequest, DeleteMsgPort, CloseLibrary.
 
-## Requirements on the Amiga side
+## Requirements / recommended setup
 
-`narrator.device` and `translator.library` must be present (Workbench 1.x
-through 2.x shipped them; on 3.x installs copy them in from a 2.x disk or an
-Aminet mirror: `translator.library` goes in `LIBS:`, `narrator.device` in
-`DEVS:`). Audio output needs FS-UAE with sound enabled, or real hardware.
+`narrator.device` and `translator.library` must be present. The Commodore Amiga ROM does not include translator.library by default; you must provide it.
+
+**On real Amiga or FS-UAE with Workbench 1.3-2.x**: These came in Workbench "Extras" or Aminet mirrors. Copy translator.library into LIBS: and narrator.device into DEVS:.
+
+**On Amiga 3.x**: Copy translator.library and narrator.device from a 2.x install or an Aminet source.
+
+**On bare AROS ROM (minimal boot)**: A full AROS disk install has them; a minimal ROM snapshot does not. Use a full install or source them from an AROS archive.
+
+Audio output also needs either FS-UAE with sound enabled or real hardware with working audio channels.
 
 ## Building
 

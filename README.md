@@ -40,7 +40,7 @@ evidence in each tool's `test/`:
 |------|-----------------|
 | claude | Verified. Haiku scaffolded, compiled (vbcc), and ran a C program on real Workbench 3.1. |
 | gemini | Verified. Fetched a capsule through the proxy and rendered gemtext on AROS. |
-| nostr | Verified (read path). WebSocket handshake and note display against a relay on AROS. |
+| nostr | Read path verified. Write path: event serialization and sha256 id computed and host-testable (signature not implemented). |
 | mcp | Verified. `write_file` and `read_file` acted on the Amiga; `run_command` works with a mounted `T:`. |
 | lua | Runs on real Workbench 3.1 (prints correct output). Fails on the bare AROS ROM, which lacks the mathieee libraries. |
 | boing | Renders on AROS. |
@@ -72,11 +72,11 @@ bash) and the reusable transport and JSON code.
 
 ## Related
 
-- [RustChain Amiga Edition](https://github.com/Scottcjn/rustchain-amiga) —
+- [RustChain Amiga Edition](https://github.com/Scottcjn/rustchain-amiga) -
   the Proof-of-Antiquity blockchain miner and SDK for 68k AmigaOS, where
   these tools started before moving here.
-- [Elyan Labs](https://elyanlabs.ai) — the lab.
-- [RustChain](https://rustchain.org) — the chain, and the BCOS certification.
+- [Elyan Labs](https://elyanlabs.ai) - the lab.
+- [RustChain](https://rustchain.org) - the chain, and the BCOS certification.
 
 ## License
 
