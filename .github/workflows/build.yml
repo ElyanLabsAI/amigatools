@@ -39,6 +39,8 @@ jobs:
 
       - name: Build lua
         run: |
+          mkdir -p lua/src-lua
+          (cd lua/src-lua && curl -sSLO https://www.lua.org/ftp/lua-5.4.7.tar.gz && tar xzf lua-5.4.7.tar.gz)
           bash lua/build.sh cross
           test -f lua/bin/lua || (echo "lua binary not found"; exit 1)
           test -f lua/bin/luac || (echo "luac binary not found"; exit 1)
